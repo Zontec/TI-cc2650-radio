@@ -189,8 +189,10 @@ void mainThread(UArg arg0, UArg arg1) {
     RF_CmdHandle RF_CmdHandle;
     while(1){
 
-
-        if(RF_cmdIeeeRx.status != 2)
+        /*Attantion - Transmit and receive data actually 
+            is impossible at the same time. It's implemented with stopping receiving data when we neet to transmit smt.
+        */
+         if(RF_cmdIeeeRx.status != 2)
             RF_CmdHandle = RF_postCmd(rfHandle, (RF_Op*)&RF_cmdIeeeRx, RF_PriorityNormal, &callback, IRQ_RX_ENTRY_DONE);
         Task_sleep((UInt)arg0);
 
