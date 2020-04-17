@@ -73,21 +73,16 @@ PIN_Config ledPinTable[] = {
                                                                  MAX_LENGTH,
                                                                  NUM_APPENDED_BYTES)];
 
-/*
- *  ======== heartBeatFxn ========
- *  Toggle the Board_LED0. The Task_sleep is determined by arg0 which
- *  is configured for the heartBeat Task instance.
- */
-
 enum RFMode{
     Recive=0,
     Transmite=1,
 };
 
-static dataQueue_t dataQueue;
-static rfc_dataEntryGeneral_t* currentDataEntry;
-static uint8_t packetLength;
-static uint8_t* packetDataPointer;
+static dataQueue_t              dataQueue;
+static rfc_dataEntryGeneral_t*  currentDataEntry;
+static uint8_t                  packetLength;
+static uint8_t*                 packetDataPointer;
+
 
 void RF_mode(enum RFMode mode){
     RF_cmdFs.synthConf.bTxMode = mode;
@@ -116,11 +111,13 @@ void transmiteIEEE802_15_4(char *buf, unsigned int size) {
 }
 int dataLen= 0;
 
+//Delay is not use CPU freq - matters not for it
 void __delay(long int ms){
     for(int i = 0; i < ms * 1000; i++)
         asm("nop;");
 }
 
+//Example recive data code callback recive function
 void callback(RF_Handle h, RF_CmdHandle ch, RF_EventMask e)
 {
 
@@ -157,6 +154,7 @@ void callback(RF_Handle h, RF_CmdHandle ch, RF_EventMask e)
     }
 }
 
+//Thread to indicate whether CPU has been crached
 void secondThread(UArg arg0, UArg arg1) {
 
     while(1){
