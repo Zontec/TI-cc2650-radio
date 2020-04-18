@@ -216,7 +216,7 @@ void mainThread(UArg arg0, UArg arg1) {
 int main(void)
 {
     Task_Params taskParams;
-
+    //Default init procedure
     UART_init();
     Board_initGeneral();
 
